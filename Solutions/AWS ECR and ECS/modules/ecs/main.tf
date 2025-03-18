@@ -8,6 +8,13 @@ terraform {
   }
 }
 
+data "aws_subnets" "default_vpc_subnets" {
+  filter {
+    name = "vpc-id"
+    values = ["vpc-c8837aae"]
+  }
+}
+
 data "aws_ecs_task_definition" "demo_taskdef" {
   task_definition = var.ecs_task_definition_name
 }
@@ -19,5 +26,17 @@ resource "aws_ecs_cluster" "demo_cluster" {
   setting {
     name = "containerInsights"
     value = "disabled"
+  }
+}
+
+resource "aws_ecs_service" "demo_service" {
+  name = "demo-ecs-service"
+  cluster = aws_ecs_cluster.demo_cluster.id
+  task_definition = data.aws_ecs_task_definition.demo_taskdef.arn
+  launch_type = "FARGATE"
+  desired_count = 1
+  network_configuration {
+    subnets = data.aws_subnets.default_vpc_subnets.ids
+    assign_public_ip = true
   }
 }
