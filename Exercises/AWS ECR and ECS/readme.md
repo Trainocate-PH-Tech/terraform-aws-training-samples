@@ -13,7 +13,7 @@ Your objective are as follows:
 
 * Add the missing requirements on the root module
 * Output the value of the ECR Repository URI
-* Create an ECS service with the following requirements ([documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service#network_configuration)):
+* Create an ECS service with the following requirements ([documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service)):
   * Use the cluster that will be generated from the configuration
   * Use the task definition from the `ecs_task_definition_name`'s default value (this task definition will run `caddy:2` pulled from ECR Public Gallery)
   * Launch type is `FARGATE`
